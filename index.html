@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>脸脸看</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--核心css文件-->
+    <!-- <link rel="stylesheet" type="text/css" href="./css/bootstrap.css"> -->
+    <!--主题css文件-->
+    <!-- <link rel="stylesheet" type="text/css" href="./css/bootstrap-theme.css"> -->
+    <!--jQuery文件-->
+    <!--<script src="./js/jquery-1.11.1.min.js"></script> -->
+    <!--核心js文件-->
+    <!--<script src="./js/bootstrap.min.js"></script> -->
+    
+    <!-- css文件 -->
+    <!-- 库文件 -->
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery-mobile-theme-155558-0/themes/skyd.min.css" />
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile.icons-1.4.5.min.css" />
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+    
+    <!-- 自定义 -->
+    <link rel="stylesheet" type="text/css" href="./css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/input.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/game.css"/>
+    <!-- css文件 -->
+
+    <!-- js文件 -->
+    <!-- 库文件 -->
+    <script src="jquery.mobile-1.4.5/jquery-1.11.1.min.js"></script>
+    <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- 自定义 -->
+    <script type="text/javascript" src="./js/uploadimg.js"></script>
+    <script type="text/javascript" src="./js/cropbox.js"></script>
+
+    <script type="text/javascript" src="./js/game/map.js"></script>
+    <script type="text/javascript" src="./js/game/piece.js"></script>
+    <script type="text/javascript" src="./js/game/game.js"></script>
+    <!-- js文件 -->
+    
+
+</head>
+<body>
+
+    <!-- 裁剪照片 -->
+    <div class="input_container" style="display:none">
+
+        <img id="canvas_img" src="./img/default.jpg" class="canvas_img"/>
+
+        <canvas id="canvas" class="canvas"></canvas>
+
+        <div id="canvas_div" class="canvas_div"></div>
+
+        <div class="canvas_btn">
+             <a href="javascript:void(0);" class="canvas_cancel">取消</a>
+             <a href="javascript:void(0);" class="canvas_ok">完成</a>
+        </div>
+    </div>
+
+
+    <!-- 游戏首页 -->
+    <div class="index_container" data-role="page" id="pageone" data-theme="c">
+        <div class="img_divs ui-grid-a">
+            <div class="img_div ui-block-a">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                    <input type="file" id="input_1" capture="camera" accept="image/*"/>
+                </div>
+            </div>
+            <div class="img_div ui-block-b">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                <input type="file" id="input_2" capture="camera" accept="image/*"/>
+                </div>
+            </div>
+            <div class="img_div ui-block-a">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                <input type="file" id="input_3" capture="camera" accept="image/*" />
+                </div>
+            </div>
+            <div class="img_div ui-block-b">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                <input type="file" id="input_4" capture="camera" accept="image/*" />
+                </div>
+            </div>
+            <div class="img_div ui-block-a">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                <input type="file" id="input_5" capture="camera" accept="image/*" />
+                </div>
+            </div>
+            <div class="img_div ui-block-b">
+                <div id="photo">
+                    <img src="./img/default.jpg">
+                </div>
+                <div id="input">
+                <input type="file" id="input_6" capture="camera" accept="image/*" />
+                </div>
+            </div>
+            
+        </div>
+
+        <div style="text-align: center" data-role="content">
+                <a class="begin" data-role="button">开始游戏</a>
+        </div>
+    </div>
+
+    <!-- 游戏页面 -->
+    <div class="game_container" style="display:none">
+        <div id="whole">
+                <div id="gamePanel" tabindex="0">
+                    <div id="pieces">
+                    </div>
+                </div>
+        
+                <div class="button">
+                     <a href="javascript:void(0);" class="canvas_cancel" id="timePanel">时间:</a>
+                     <a href="javascript:void(0);" class="time" id="time">0</a>
+                     <a href="javascript:void(0);" class="goback" id="reset">返回</a>
+                     <a href="javascript:void(0);" class="restart" id="start" onclick="ReStart()">重新开始</a>
+                </div>              
+            </div>
+        
+    </div>
+
+    <!-- 游戏结束页面 -->
+    <div class="gameover" style="display: none">
+        
+    </div>
+	<script type="text/javascript">
+		var device_width =  getDeviceWidth();
+		var device_height = getDeviceHeight();
+
+        // alert(device_width+","+device_height);
+        var index;
+        var sqrt = 1;  //input缩放图像时的缩放比
+        var dx,dy;     //input时画在canvas上的dx,dy.
+        var count=0;
+
+
+
+        //index begins
+        $('.img_divs').css({
+            'margin-left':(4*device_width)/25+'px' 
+            // padding:1*device_width/30+'px'
+        });
+
+        $('.img_div').css({
+            width: (3*device_width)/10+'px',
+            height:(3*device_width)/10+'px',
+            margin:(1*device_width)/50+'px'
+        });
+        $('input').css({
+            "position": "absolute"
+            // width: (3*device_width)/10+'px',
+            // height:(3*device_width)/10+'px'
+        });
+
+        $("#input_1").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+        $("#input_2").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+        $("#input_3").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+        $("#input_4").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+        $("#input_5").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+        $("#input_6").UploadBeautify({uploadStyle: "img",uploadNum: 1,divMargin:$(".img_div").height()/2, width: 50, height: 50,
+                      content: "./img/camera.png"}).change(function(){
+            setImagePreviews(this);
+        });
+
+        //上传图片
+       
+        $('.img_divs #upload-file').on('change', function(){
+            index=$(this).parent().parent().children().index($(this).parent());
+            var reader = new FileReader();
+            reader.onload = function(e) {
+
+                var imgSrc = e.target.result;
+                img_obj.src=imgSrc;
+                img_obj.onload=function(){
+                    load();
+                }
+                
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+            $('.index_container').css('display','none');
+            $('.input_container').css( 'display','block');
+        });
+
+        $('.begin').on('click',function(){
+            
+            if (validate(count)) {
+                $('.index_container').css('display','none');
+                $('.game_container').css('display','block');
+                Start();
+            }
+
+        });
+        //index ends
+
+        
+
+        //input begins
+       
+        var can_obj = document.querySelector("#canvas");
+        var img_obj = document.querySelector("#canvas_img");
+        var div_obj = document.querySelector("#canvas_div");
+
+        $('.canvas_ok').on('touchend', function(){
+            count++;
+            var img=getImageData();
+            MyImg.Src[index]=img;
+            $('.img_div').eq(index).html('');
+            $('.img_div').eq(index).append('<img src="'+img+'" align="absmiddle" style="width:'+$(".img_div").width()+"px"+';box-shadow:0px 0px 12px #7E7E7E;" >');
+
+            $('.input_container').css('display','none');
+            $('.index_container').css('display','block');
+        });
+
+        
+        //input ends
+        
+        //game begins
+        $('#whole').css({
+            width:device_width+'px',
+            height:device_height+'px'
+        })
+
+        $('#gamePanel').css({
+            width:device_width+'px',
+            height:device_height*8/9+'px'
+        });
+
+        $('.button').css({
+            height: device_height/9+'px'
+        });
+        $('.button a').css({
+            height: $('.canvas_btn').height()+'px',
+            width:device_width/4+'px'
+        });
+
+        // alert($("#pieces").width());
+        $('#pieces').css({
+            // height: $('.canvas_btn').height()+'px',
+            // 'left':'$("#pieces").width'
+        });
+
+
+    
+	</script>
+</body>
+</html>

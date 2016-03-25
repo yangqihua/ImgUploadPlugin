@@ -1,0 +1,23 @@
+*{margin:0;padding: 0;}
+
+body,html{
+	position:relative;width:100%;height:100%;overflow: hidden;
+}
+
+.img_div{
+	position:relative;
+    border: 1px solid #aaa;
+    text-align: center;
+}
+#photo{
+	position:absolute;width:100%;height:100%;top:0;right:0;
+}
+#photo img{
+	width:100%;
+}
+#input{
+	position: absolute;width:100%;height:100%;background: rgba(255,255,255,0.8);
+}
+
+
+
